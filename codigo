@@ -1,0 +1,278 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.ExceptionServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Media;
+
+
+namespace PalabraDelDia
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            // Patron de título. 
+            string pattern = @"                                                                                                                             
+                        
+            ██╗    ██╗     ██████╗     ██████╗     ██████╗     ██╗         ███████╗
+            ██║    ██║    ██╔═══██╗    ██╔══██╗    ██╔══██╗    ██║         ██╔════╝
+            ██║ █╗ ██║    ██║   ██║    ██████╔╝    ██║  ██║    ██║         █████╗  
+            ██║███╗██║    ██║   ██║    ██╔══██╗    ██║  ██║    ██║         ██╔══╝  
+            ╚███╔███╔╝    ╚██████╔╝    ██║  ██║    ██████╔╝    ███████╗    ███████╗
+             ╚══╝╚══╝      ╚═════╝     ╚═╝  ╚═╝    ╚═════╝     ╚══════╝    ╚══════╝
+                                                                                   
+            
+            Dani      ------      Joel      ------      Alex      ------      Pablo 
+                        ";
+                        
+            Console.WriteLine(pattern);
+            Random rnd = new Random();
+            Wordle(rnd);
+
+            Console.ReadLine();
+        }
+        static void Wordle(Random rnd)
+        {
+            string[] palabras = {
+            "ABETO", "ACTOR", "AGUAS", "AGUDO", "ALADO", "ALBAS", "ALTAR", "ANTON", "ATIZO", "AVALA",
+            "AVION", "AZUL", "ABACO", "ABATE", "ABOYA", "ABRAN", "ABRAS", "ABRIA", "ACOJA", "ACOJO",
+            "ACRES", "ACTAS", "ACTOS", "ACTUO", "ACUNA", "ACUNE", "ACUSO", "ACUSO", "ACUNA", "AFEAS",
+            "AGUDA", "AGUDO", "ALAJU", "ALCES", "ALDEA", "ALEJA", "ALGAS", "ALIAS", "ALMAS", "ALTOS",
+            "AMINA", "ANDAS", "ANDES", "ANEAR", "ANIMA", "ANIMA", "ATOJO", "AYUDA", "AZOTE", "AEREA",
+            "ANORO", "BACHE", "BABAS", "BACAS", "BAJES", "BALAS", "BEBES", "BELEN", "BERTO", "BICHO",
+            "BIZCO", "BUENO", "BUENA", "BUSCA", "BAJOS", "BARRE", "BATAS", "BATES", "BAYAS", "BANAS",
+            "BANOS", "BEBED", "BEBES", "BESEN", "BESOS", "BOJAR", "BONOS", "BORRE", "BORRA", "BOTAD",
+            "BOTES", "BRUNO", "BRUTA", "BRUTO", "CABRA", "CAFES", "CAJAS", "CALAR", "CALAS", "CALCA",
+            "CALCO", "CALLA", "CALMA", "CAMBA", "CAMPO", "CANAS", "CANTOS", "CAPTO", "CARAS", "CARGA",
+            "CARGO", "CARLO", "CARRO", "CASAS", "CATAR", "CATAR", "CAIDA", "CEJAS", "CELIA", "CENAS",
+            "CEPAS", "CERCA", "CERCO", "CERDO", "CERDA", "CHILE", "CHILE", "CHINA", "CHINA", "CIEGO",
+            "CIEGA", "CINCO", "CINES", "CISNE", "CITAS", "CLARA", "CLARO", "CLARA", "CLAVE", "CLAVO",
+            "COLAS", "COLON", "COLON", "CORAL", "CORAS", "COREA", "COREA", "CORRO", "COSAS", "COSTO",
+            "COSTE", "CRUDO", "CURDO", "CURDA", "CURAR", "CELTA", "COGER", "COMBO", "CORSE", "CREMA",
+            "CUIDA", "CULOS", "CURAL", "DADOS", "DAGAS", "DATOS", "DANZA", "DEJAR", "DEJES", "DENSO",
+            "DENSA", "DICES", "DIVOS", "DOTES", "DUNAS", "DURES", "DUROS", "DUBAI", "ENOJO", "ELLOS",
+            "ELLAS", "ECHAS", "EDITO", "EDITA", "ELEVO", "EMULE", "ENOJE", "ERROR", "ERRAR", "ESTAS",
+            "ELENA", "EMOJI", "ENVIO", "ERIZO", "ESPIA", "EUROS", "FALLO", "FALTO", "FERIA", "FETOS",
+            "FIJOS", "FILAS", "FILIA", "FINCA", "FILOS", "FIRMA", "FLOTO", "FOCOS", "FOLLA", "FORMA",
+            "FRIDA", "FRITA", "FRITO", "FREIR", "FUGAS", "FUMAS", "FUSIL", "GALES", "GAFAS", "GALAS",
+            "GALIA", "GALOS", "GANAS", "GANES", "GASES", "GASTO", "GIRAR", "GERBO", "GORDO", "GORDA",
+            "GORRO", "GORRA", "GRAVE", "GRAVA", "GRITO", "GABON", "GHANA", "GEMIR", "GUERA", "GUERO",
+            "HACER", "HALOS", "HASTA", "HARTA", "HARTO", "HECES", "HIELO", "HABAS", "HABLA", "HACHA",
+            "HAITI", "HIJAS", "HIJOS", "HUERA", "HUERO", "INDIA", "INDIO", "IDEAS", "INFLO", "ISLAS",
+            "INDIA", "ISLAS", "IVANA", "JAPON", "JEFAS", "JEFES", "JERGA", "JOSUE", "JUEGO", "JUGAR",
+            "JULIO", "JULIO", "JULIA", "JADEO", "JAIRO", "JALON", "JERBO", "JESUS", "JODER", "JURAR",
+            "KABUL", "KENIA", "KURDO", "KURDA", "LABIA", "LACRA", "LADOS", "LAGOS", "LANCE", "LARGA",
+            "LARGO", "LEJOS", "LENTE", "LENTO", "LIBIA", "LIBIA", "LIBRO", "LIBRA", "LINDA", "LINDO",
+            "LOGRO", "LOTEO", "LUCHE", "LIBER", "MANIA", "MALOS", "MALAS", "MARCA", "MARCO", "MARCO",
+            "MARTI", "MARTE", "MARTA", "MARTA", "MARIA", "MARIO", "MEDIO", "MELON", "MENOS", "METER",
+            "METRO", "MOLAR", "MOLER", "MONTE", "MORIR", "MANCO", "MANCA", "MACAO", "MALTA", "MANGO",
+            "MANGA", "MEABA", "MEDIA", "MIDAS", "MIDAS", "MINSK", "MIRAS", "MIRAR", "MIRON", "MOJAR",
+            "MOSCU", "MULTA", "MUNDO", "NACER", "NADAR", "NARRO", "NATAS", "NAVES", "NECIO", "NECIA",
+            "NINOS", "NOTAS", "NUBES", "NURIA", "NABOS", "NAZIS", "NEPAL", "NIGER", "NONEZ", "NIZCA",
+            "NUZCO", "NOQUI", "NURDO", "NURDA", "OPERA", "OBRAS", "OCIOS", "OLLAS", "ONDAS", "ONZAS",
+            "OTROS", "OTRAS", "OVULO", "OIRTE", "OREJA", "OBRAS", "ODIAR", "ORINA", "ORTOS", "OSITO",
+            "PARIS", "PALAS", "PEDIR", "PELEA", "PELOS", "PELAR", "PERAS", "PERRO", "PERRA", "PESOS",
+            "PILAS", "PINTO", "PINTO", "PODER", "PACTO", "PAGAR", "PALMA", "PALMA", "PAPUA", "PARDA",
+            "PARDO", "PASEO", "PATEO", "PECIO", "PENES", "PERES", "PESCA", "PIFIA", "PISCO", "PLAYA",
+            "PLENO", "PONER", "PRADA", "PUNTO", "PUNTA", "PURGA", "QATAR", "QUEDA", "QUEDO", "QUEDE",
+            "QUEMA", "QUITO", "QUITO", "QUESO", "QUEPA", "RELOJ", "RUBIO", "RUBIA", "RASCO", "RASCA",
+            "RATAS", "RASTA", "RATOS", "REDES", "REMAR", "RENOS", "RENTA", "RABIA", "RABOS", "RABAL",
+            "RAMOS", "RAMON", "RAMON", "RASPA", "RECIO", "RECIA", "REGIO", "REGIA", "RESTO", "RUGIR",
+            "ROGAR", "RUSIA", "SABIO", "SABIA", "SAVIA", "SABER", "SACAR", "SALAR", "SALIR", "SELVA",
+            "SANAR", "SOPAS", "SECAR", "SERIO", "SERIA", "SITUO", "SOBAR", "SONAR", "SUBIR", "SUCIO",
+            "SUCIA", "SIETE", "SACRA", "SAJON", "SALVE", "SALVA", "SALTO", "SALUD", "SAMOA", "SANTO",
+            "SANTA", "SEDAR", "SEXOS", "SEGAR", "SIEGA", "SIRIA", "SIRIA", "SOBRE", "SOLAR", "SONDA",
+            "SOPLO", "SONAR", "SUDAN", "SUENO", "SUIZA", "SUIZA", "SUSHI", "SUPER", "TABLA", "TACOS",
+            "TANIA", "TAPAS", "TAPAR", "TAZAS", "TELON", "TENER", "TEJER", "TENIS", "TERCO", "TERCA",
+            "TERSO", "TERSA", "TEXAS", "TIPOS", "TIRAS", "TIRSO", "TODAS", "TODOS", "TOMAR", "TOMAS",
+            "TONOS", "TONTO", "TONTA", "TOQUE", "TORPE", "TROTE", "TALAR", "TELAR", "TARDE", "TEMER",
+            "TENIA", "TOPAR", "TOCAR", "TOMAR", "TOSER", "TONER", "TRAER", "TUMBA", "TUNEZ", "UNOSO",
+            "UNOSA", "UNTES", "URBES", "URIBE", "URNAS", "VALER", "VACAS", "VAGOS", "VAGAS", "VALOR",
+            "VECES", "VEDAS", "VELAS", "VELAR", "VEMOS", "VERSE", "VERSO", "VENIR", "VERDE", "VIGOR",
+            "VIVIR", "VOLAR", "VOTAR", "VASCO", "VASCA", "VASTO", "VASTA", "VIAJES", "VIDEO", "WEBER",
+            "WIKIS", "WONES", "XOLAS", "YEMEN", "YATES", "YEMAS", "YENDO", "YENES", "YESCA", "YOGUR",
+            "YUGOS", "ZORRO", "ZORRA", "ZONAS", "ZURDO", "ZURDA", "ZARCA", "ZEBRA", "ZEGRI", "ZEINA",
+            "ZEJEL", "ZOCAR", "ZOCAS"};
+
+            // Inicia un abecedario para mostrar las letras usadas y sin usar.
+            char[] abc = InitAbc();
+
+            // Inicialización con la elección de la palabra y número de intentos. 
+            string gameword = palabras[rnd.Next(0, palabras.Length)];
+            int intentos = 0;
+            string[] palabraIntentada = new string[6];
+            int indexPI = 0;
+            StringBuilder[] resultados = new StringBuilder[6];
+            
+            // Palabra elegida, para probar que funciona bien.
+            //Console.WriteLine("Palabra a adivinar: " + gameword);
+            Console.WriteLine("La palabra consta de 5 letras, dispones de 6 intentos.\nSuerte!");
+
+            do
+            {
+                StringBuilder resultadoActual = new StringBuilder("_____");
+                Console.WriteLine("Intento " + (intentos + 1) );
+
+                // Solicita la palabra al usuario y la pone en mayúsculas para comparar. 
+                string playerword = Console.ReadLine().ToUpper();
+
+                // Si no tiene 5 caracteres, pide que introduzca de nuevo.
+                if (playerword.Length != 5)
+                {
+                    do
+                    {
+                        Console.WriteLine("Palabra invalida, debe introducir una palabra de 5 letras");
+                        playerword = Console.ReadLine().ToUpper();
+                    }
+                    while (playerword.Length != 5);
+                }
+
+                // Si no es una letra, pide que introduzcas de nuevo
+                for (int i = 0; i < playerword.Length; i++)
+                {
+                    if ((playerword[i] < 'A' || playerword[i] > 'Z') && playerword[i] != 'Ñ')
+                    {
+                        do
+                        {
+                            Console.WriteLine("Palabra invalida, debe introducir una palabra que incluya solo 5 letras de la A a la Z");
+                            playerword = Console.ReadLine().ToUpper();
+                        }
+                        while ((playerword[i] < 'A' || playerword[i] > 'Z') && playerword[i] != 'Ñ');
+                    }
+                }
+                palabraIntentada[indexPI] = playerword;
+                indexPI++;
+
+                // Si has aciertado, mensaje de felicitación.
+                if (playerword == gameword)
+                {
+                    Console.WriteLine(Winner());
+                    break;
+                }
+
+                // Comprueba letra a letra si está en la palabra, y las letras usadas las elimina del abecedario de letras
+                for (int i = 0; i < playerword.Length; i++)
+                {
+                    checkAbc(abc, playerword[i]);
+
+                    if (playerword[i] == gameword[i])
+                    {
+                        resultadoActual[i] = char.ToUpper(playerword[i]);
+                    }
+                    else if (gameword.Contains(playerword[i]))
+                    {
+                        resultadoActual[i] = char.ToLower(playerword[i]);
+                    }
+                }
+
+                // Guarda cada resultado una vez convertido a mayuscula o minuscula.
+                resultados[intentos] = resultadoActual;
+
+                // Borra la consola para que tras cada inento se vea solo la palabra intentada y los aciertos en ella. 
+                Console.Clear();
+                for (int i = 0; i <= intentos; i++)
+                {
+                    Console.Write("                                                           " + palabraIntentada[i] + "      ");
+                    for (int j = 0; j < resultados[i].Length; j++)
+                    {
+                        if (mayusc(resultados[i][j]))
+                        {
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.Write(resultados[i][j]);
+                            Console.ResetColor();
+                        }
+                        else if (minusc(resultados[i][j]))
+                        {
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.Write(resultados[i][j]);
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write(resultados[i][j]);
+                        }
+                    }
+                    Console.WriteLine();
+                }
+                // Imprime el abecedario tras el intento con las letras que quedan por usar. 
+                Console.WriteLine("\n\n");
+                Console.Write("              "); printABC(abc);
+                Console.WriteLine();
+                intentos++;
+
+                if (intentos >= 6)
+                {
+                    Console.WriteLine("No lo has logrado. La palabra correcta era: " + gameword);
+                    break;
+                }
+
+            } while (intentos < 6);
+        }
+        static void checkAbc(char[] abc, char playerword)
+        {
+            for (int j = 0; j < abc.Length; j++)
+            {
+                if (abc[j] == playerword)
+                {
+                    abc[j] = ' ';
+                }
+            }
+        }
+        static char[] InitAbc()
+        {
+            char[] abc = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ',
+                             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+            return abc;
+        }
+        static void printABC(char[] abc)
+        {
+            for (int j = 0; j < abc.Length; j++)
+            {
+                Console.Write(abc[j] + " ");
+            }
+            Console.WriteLine();
+        }
+        static bool mayusc(char c)
+        {
+            if (c >= 'A' && c <= 'Z' || c == 'Ñ')
+            {
+                return true;
+            }
+            return false;
+        }
+        static bool minusc(char c)
+        {
+            if (c >= 'a' && c <= 'z' || c == 'ñ')
+            {
+                return true;
+            }
+            return false;
+        }
+
+        static string Winner()
+        {
+            string winner = @"
+
+                                                                                       
+  _____            ____  _____   ______    _____   ______        ______        _____   
+ |\    \   _____  |    ||\    \ |\     \  |\    \ |\     \   ___|\     \   ___|\    \  
+ | |    | /    /| |    | \\    \| \     \  \\    \| \     \ |     \     \ |    |\    \ 
+ \/     / |    || |    |  \|    \  \     |  \|    \  \     ||     ,_____/||    | |    |
+ /     /_  \   \/ |    |   |     \  |    |   |     \  |    ||     \--'\_|/|    |/____/ 
+|     // \  \   \ |    |   |      \ |    |   |      \ |    ||     /___/|  |    |\    \ 
+|    |/   \ |    ||    |   |    |\ \|    |   |    |\ \|    ||     \____|\ |    | |    |
+|\ ___/\   \|   /||____|   |____||\_____/|   |____||\_____/||____ '     /||____| |____|
+| |   | \______/ ||    |   |    |/ \|   ||   |    |/ \|   |||    /_____/ ||    | |    |
+ \|___|/\ |    | ||____|   |____|   |___|/   |____|   |___|/|____|     | /|____| |____|
+    \(   \|____|/   \(       \(       )/       \(       )/    \( |_____|/   \(     )/  
+     '      )/       '        '       '         '       '      '    )/       '     '   
+            '                                                       '                  
+
+                ";
+            return winner;
+        }
+    }
+}
